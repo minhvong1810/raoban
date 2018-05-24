@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class UserController extends Controller
+{
+    public function index(Request $request)
+    {
+        echo $request->ip();
+        $urlQueryString = $request->query();
+
+        return response()->json($urlQueryString, 200);
+    }
+}
