@@ -38,15 +38,15 @@ class AppHelpers
     /**
      * @param $url
      * @param $body
-     * @return bool
+     * @return bool|\Psr\Http\Message\ResponseInterface
      */
     public function postGuzzleRequest($url, $body)
     {
         $client = new Client();
-        $request = $client->post($url, ['body'=>$body]);
 
         try {
-            $response = $request->send();
+            //var_dump($body);die();
+            $result = $client->post($url, ['form_params'=>$body]);
         } catch (\Exception $e) {
             report($e);
             Log::info('Error: ', $e);
@@ -54,7 +54,7 @@ class AppHelpers
             return false;
         }
 
-        return $response;
+        return $result;
     }
 
 }
