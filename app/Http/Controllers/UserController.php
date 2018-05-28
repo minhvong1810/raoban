@@ -11,6 +11,7 @@ class UserController extends Controller
     {
         //echo $request->ip();
         //get value and aupdate db here
+        //return \Config::get('constants.SPEED_SMS_API_ACCESS_TOKEN');
         return $request->all();
         $urlQueryString = $request->query();
 
@@ -34,5 +35,27 @@ class UserController extends Controller
         $response = $helper->postGuzzleRequest($url, $body);
 
         return $response;
+    }
+
+
+    public function sendSMS()
+    {
+        $helper = new AppHelpers();
+        $url = 'https://api.speedsms.vn/index.php/sms/send';
+        $body = [
+            'to' => ['0933962428'],
+            'content' => 'Chào bạn, chúc ngày mới tốt lành',
+            'sms_type' => 2,
+            'sender' => ''
+        ];
+
+        $response = $helper->postCurlGuzzleRequest($url, $body);
+
+        return $response;
+    }
+
+    public function getSMSResponse(Request $request)
+    {
+        return $request->all();
     }
 }

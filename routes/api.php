@@ -22,3 +22,5 @@ Route::post('sms', 'UserController@index');
 
 Route::get('test', 'UserController@testHelper');
 Route::post('test-post', 'UserController@testPostHelper');
+Route::post('test-sms', 'UserController@sendSMS');
+Route::post('get-response', 'UserController@getSMSResponse');
