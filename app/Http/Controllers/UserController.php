@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Helpers\AppHelpers;
+use App\User;
 
 class UserController extends Controller
 {
@@ -17,6 +18,42 @@ class UserController extends Controller
 
         return "0 | Ban da dang ky tai khoan thanh cong";
         //return response()->json($urlQueryString, 200);
+    }
+
+    public function store(Request $request)
+    {
+        $urlQueryString = $request->query();
+
+        if($urlQueryString['Command_Code'] === 'TTV'){
+
+            $phoneNumber = str_replace('84', '0', $urlQueryString['User_ID']);
+            $message = substr($urlQueryString['Message'], 3);
+
+            $user = User::where('phone_number', $phoneNumber)->first();
+
+            if($user){
+                //update database with new message
+                $user->name = $message;
+                $res = $user->save();
+
+                if($res){
+                    return "0 | Ban da cap nhat tai khoan thanh cong";
+                }
+            }else{
+                //create new record
+                $user = new User();
+
+                $user->phone_number = $phoneNumber;
+                $user->name = $message;
+                $res = $user->save();
+
+                if($res){
+                    return "0 | Ban da dang ky tai khoan thanh cong";
+                }
+            }
+        }
+
+        return "3 | Sai Command Code";
     }
 
     public function testHelper()

@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('sms', 'UserController@index');
+Route::get('sms', 'UserController@store');
 //Route::get('sms', 'UserController@index')->middleware('ipcheck');
 
 Route::get('test', 'UserController@testHelper');
