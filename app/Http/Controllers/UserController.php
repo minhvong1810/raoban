@@ -56,6 +56,20 @@ class UserController extends Controller
         return "3 | Sai Command Code";
     }
 
+    public function testStore()
+    {
+        //create new record
+        $user = new User();
+
+        $user->phone_number = '093333221100';
+        $user->name = 'abc';
+        $res = $user->save();
+
+        if($res){
+            return "0 | Ban da dang ky tai khoan thanh cong";
+        }
+    }
+
     public function testHelper()
     {
         $helper = new AppHelpers();
