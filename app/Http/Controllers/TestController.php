@@ -29,7 +29,7 @@ class TestController extends Controller
         $res = $user->save();
 
         if($res){
-            return "0 | Ban da dang ky tai khoan thanh cong";
+            return "0 | Ban da test tai khoan thanh cong";
         }
     }
 
