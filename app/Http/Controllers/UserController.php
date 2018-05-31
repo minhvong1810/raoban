@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Helpers\AppHelpers;
 use App\User;
 use App\MessageSample;
+use App\Events\RegisterAccount;
 
 class UserController extends Controller
 {
@@ -54,6 +55,7 @@ class UserController extends Controller
                 $res = $user->save();
 
                 if($res){
+                    event(new RegisterAccount($user));
                     if($registerSuccessMessage){
                         return $registerSuccessMessage->content;
                     }
@@ -78,6 +80,7 @@ class UserController extends Controller
      */
     public function sendSMS($phoneNumber, $step)
     {
+        echo 'phonenumber: '.$phoneNumber;die();
         $guideCreateAdsMessage = MessageSample::where('name', 'guide_register_ads')->first();
         $responseAdsMessage = MessageSample::where('name', 'response_register_ads')->first();
         $helper = new AppHelpers();

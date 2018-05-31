@@ -24,7 +24,7 @@ class TestController extends Controller
     {
         $user = new User();
 
-        $user->phone_number = '093333221100';
+        $user->phone_number = '096666221100';
         $user->name = 'abc';
         $res = $user->save();
 
