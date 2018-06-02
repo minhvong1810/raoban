@@ -19,9 +19,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('sms', 'UserController@store');
 //Route::get('sms', 'UserController@store')->middleware('ipcheck');
+Route::post('get-response', 'UserController@getSMSResponse');
 
 Route::get('test-store', 'TestController@testStore');
-Route::get('test', 'TestController@testHelper');
+//Route::get('test', 'TestController@testHelper');
 Route::post('test-post', 'TestController@testPostHelper');
 Route::post('test-sms', 'UserController@sendSMS');
-Route::post('get-response', 'UserController@getSMSResponse');
+Route::post('test', 'TestController@index');

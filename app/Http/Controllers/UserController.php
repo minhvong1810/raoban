@@ -7,6 +7,7 @@ use App\Http\Helpers\AppHelpers;
 use App\User;
 use App\MessageSample;
 use App\Events\RegisterAccount;
+use App\ClassifiedAds;
 
 class UserController extends Controller
 {
@@ -20,6 +21,7 @@ class UserController extends Controller
      *
      * @param Request $request
      * @return string
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function store(Request $request)
     {
@@ -55,7 +57,7 @@ class UserController extends Controller
                 $res = $user->save();
 
                 if($res){
-                    event(new RegisterAccount($user));
+                    $this->sendSMS($user->phone_number, 1);
                     if($registerSuccessMessage){
                         return $registerSuccessMessage->content;
                     }
@@ -80,7 +82,8 @@ class UserController extends Controller
      */
     public function sendSMS($phoneNumber, $step)
     {
-        echo 'phonenumber: '.$phoneNumber;die();
+        /*echo 'ready to send';
+        die();*/
         $guideCreateAdsMessage = MessageSample::where('name', 'guide_register_ads')->first();
         $responseAdsMessage = MessageSample::where('name', 'response_register_ads')->first();
         $helper = new AppHelpers();
@@ -88,14 +91,14 @@ class UserController extends Controller
 
         switch($step){
             case 1:
-                $content = 'Chào bạn, để đăng ký thông tin rao vặt, vui lòng soạn nội dung theo cú pháp <tên>|<nội_dung>. Ví dụ: Cà phê|123 Tên Lửa';
+                $content = 'Tai khoan cua ban da duoc tao thanh cong. De dang ky thong tin rao vat. Vui long soan theo cu phap TEN RAO VAT#NOI DUNG RAO VAT. Vi du: Ca phe#123 duong Ten Lua';
                 if($guideCreateAdsMessage){
                     $content = $guideCreateAdsMessage->content;
                 }
                 break;
             case 2:
             default:
-                $content = 'Nội dung rao vặt của bạn đã được gửi và đang chờ phê duyệt. Vui lòng ghé website: http://raobanmienphi.xyz để xem';
+                $content = 'Noi dung rao vat cua ban dang duoc phe duyet. Vui long ghe website http://raobanmienphi.xyz de xem them chi tiet';
                 if($responseAdsMessage){
                     $content = $responseAdsMessage->content;
                 }
@@ -114,8 +117,34 @@ class UserController extends Controller
         return $response;
     }
 
+    /**
+     * Get SMS Response from SpeedSMS
+     *
+     * @param Request $request
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function getSMSResponse(Request $request)
     {
-        return $request->all();
+        $response = $request->all();
+        $secretKey = \Config::get('constants.SPEED_SMS_API_SECRET_KEY');;
+        $smsContent = $response['content'];
+        $phoneNumber = $response['phone'];
+        $user = User::where('phone_number', $phoneNumber)->first();
+
+        if(!empty($smsContent) && $user /*&& $response['secret'] == $secretKey*/){
+            $contentData = explode('#', $smsContent);
+            $name = $contentData[0];
+            $content = $contentData[1];
+
+            $classifiedAd = new ClassifiedAds();
+            $classifiedAd->user_id = $user->id;
+            $classifiedAd->name = $name;
+            $classifiedAd->content = $content;
+            $res = $classifiedAd->save();
+
+            if($res){
+                $this->sendSMS($phoneNumber, 2);
+            }
+        }
     }
 }

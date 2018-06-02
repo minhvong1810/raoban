@@ -13,7 +13,8 @@ class TestController extends Controller
         //echo $request->ip();
         //get value and aupdate db here
         //return \Config::get('constants.SPEED_SMS_API_ACCESS_TOKEN');
-        return $request->all();
+        $content = $request->all();
+        return $content;
         $urlQueryString = $request->query();
 
         return "0 | Ban da dang ky tai khoan thanh cong";
@@ -24,8 +25,8 @@ class TestController extends Controller
     {
         $user = new User();
 
-        $user->phone_number = '096666221100';
-        $user->name = 'abc';
+        $user->phone_number = (string)mt_rand();
+        $user->name = 'abc1';
         $res = $user->save();
 
         if($res){
