@@ -27,11 +27,11 @@ class MessageSamplesTableSeeder extends Seeder
             ],
             [
                 'name' => 'guide_register_ads',
-                'content' => 'Chào bạn, để đăng ký thông tin rao vặt, vui lòng soạn nội dung theo cú pháp <tên>|<nội_dung>. Ví dụ: Cà phê|123 Tên Lửa'
+                'content' => 'Tai khoan cua ban da duoc tao thanh cong. De xac nhan thong tin. Vui long soan theo cu phap TEN#CODE. Vi du: Nguyen Hung#123'
             ],
             [
                 'name' => 'response_register_ads',
-                'content' => 'Nội dung rao vặt của bạn đã được gửi và đang chờ phê duyệt. Vui lòng ghé website: http://raobanmienphi.xyz để xem'
+                'content' => 'Noi dung cua ban dang duoc phe duyet. Vui long ghe website: http://raobanmienphi.xyz để xem them chi tiet'
             ]
         ];
         DB::table('message_samples')->insert($messageSamples);
