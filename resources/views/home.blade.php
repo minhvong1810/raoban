@@ -78,6 +78,7 @@
     @endif
 
     <div class="content">
+        <h1>This is Home</h1>
         @foreach($classifiedAds as $classifiedAd)
             {{ $classifiedAd->name }} | {{ $classifiedAd->content }}<br>
         @endforeach
