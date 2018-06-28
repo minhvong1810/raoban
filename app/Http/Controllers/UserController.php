@@ -147,4 +147,17 @@ class UserController extends Controller
             }
         }
     }
+
+    public function getAll()
+    {
+        $title = 'Users';
+        $users = User::all();
+
+        $data = [
+            'title' => $title,
+            'users' => $users
+        ];
+
+        return view('users', $data);
+    }
 }

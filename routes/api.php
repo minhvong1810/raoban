@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('sms', 'UserController@store');
 //Route::get('sms', 'UserController@store')->middleware('ipcheck');
 Route::post('get-response', 'UserController@getSMSResponse');
-Route::get('get-email', 'EmailController@store');
+Route::post('get-email', 'EmailController@store');
 
 Route::get('test-store', 'TestController@testStore');
 //Route::get('test', 'TestController@testHelper');

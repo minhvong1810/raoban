@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class EmailController extends Controller
 {
@@ -34,8 +35,13 @@ class EmailController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        echo 'hey';
+        //create new record
+        $user = new User();
+
+        $user->phone_number = (string)mt_rand();
+        $user->name = 'noname'.(string)mt_rand();
+        $user->email = $request->subscription;
+        $user->save();
     }
 
     /**

@@ -16,3 +16,5 @@
 });*/
 
 Route::get('/', 'ClassifiedAdsController@getAll');
+
+Route::get('/users', 'UserController@getAll');
