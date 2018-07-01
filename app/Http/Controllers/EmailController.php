@@ -30,8 +30,8 @@ class EmailController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  Request $request
+     * @return int
      */
     public function store(Request $request)
     {
@@ -42,6 +42,8 @@ class EmailController extends Controller
         $user->name = 'noname'.(string)mt_rand();
         $user->email = $request->subscription;
         $user->save();
+
+        return 200;
     }
 
     /**
