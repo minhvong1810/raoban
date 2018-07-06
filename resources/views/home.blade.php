@@ -77,6 +77,13 @@
         </div>
     @endif
 
+    <h1>{{ LaravelGmail::user() }}</h1>
+    @if(LaravelGmail::check())
+        <a href="{{ url('oauth/gmail/logout') }}">logout</a>
+    @else
+        <a href="{{ url('oauth/gmail') }}">login</a>
+    @endif
+
     <div class="content">
         @foreach($classifiedAds as $classifiedAd)
             {{ $classifiedAd->name }} | {{ $classifiedAd->content }}<br>
